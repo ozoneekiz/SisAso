@@ -1,0 +1,42 @@
+BEGIN
+
+ IF (_estado="") THEN
+ 		SELECT
+         asi.idasistencia as idasis,
+         a.numerodepadron as npa,
+         concat(a.nombre,", ",a.apellido) as nombre,
+         asi.fechahora_asistecia as entrada,
+         asi.estado as estado
+          FROM asistencia asi
+         INNER join asociados a on a.id=asi.id_asociado
+         WHERE   asi.idevento=_idEvento;
+         
+ELSEIF (_estado="asistio,tardanza") THEN
+     SELECT
+     asi.idasistencia as idasis,
+     a.numerodepadron as npa,
+     concat(a.nombre,", ",a.apellido) as nombre,
+     asi.fechahora_asistecia as entrada,
+     asi.estado as estado
+
+     FROM asistencia asi
+     INNER join asociados a on a.id=asi.id_asociado
+     WHERE   asi.idevento=_idEvento AND (asi.estado="asistio" OR asi.estado="tardanza"); 
+   
+   
+ELSE
+     SELECT
+     asi.idasistencia as idasis,
+     a.numerodepadron as npa,
+     concat(a.nombre,", ",a.apellido) as nombre,
+     asi.fechahora_asistecia as entrada,
+     asi.estado as estado
+
+     FROM asistencia asi
+     INNER join asociados a on a.id=asi.id_asociado
+     WHERE   asi.idevento=_idEvento AND asi.estado=_estado;
+   
+     
+END IF;
+ 
+END
